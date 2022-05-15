@@ -76,14 +76,13 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.getUserPaginationList(pId,page, size));
     }
 
-    /*@GetMapping("/adm/{id}")
+    @GetMapping("/adm/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Integer id,
                                      HttpServletRequest request) {
         JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
         log.info("get by id : {}", id );
         return ResponseEntity.ok(categoryService.getById(id));
     }
-*/
 
 
     @PutMapping("/status")
