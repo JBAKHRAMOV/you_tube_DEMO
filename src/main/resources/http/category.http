@@ -1,0 +1,40 @@
+### CREATE
+POST http://localhost:8080/category/adm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI
+
+{
+  "key": "GAME",
+  "nameUz": "gameUZ",
+  "nameRu": "gameRU",
+  "nameEn": "gameEN"
+}
+
+### GET LIST
+GET http://localhost:8080/category/adm/pagination
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI
+
+
+### GET BY ID
+GET http://localhost:8080/category/adm/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI
+
+### GET BY LANG
+GET http://localhost:8080/category/public/list/uz
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI
+
+### UPDATE
+PUT http://localhost:8080/category/adm/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNTU2MTU0LCJleHAiOjE2NTI1NTk3NTQsImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.lKcp3tWA7OGxSFAllQqKP5vZWnWl8yFxQhQS14vLK0U
+
+{
+  "key": "VIDEO",
+  "nameUz": "videoUZ",
+  "nameRu": "videoRU",
+  "nameEn": "videoEN"
+}
+
+### DELETE
+DELETE http://localhost:8080/category/adm/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI

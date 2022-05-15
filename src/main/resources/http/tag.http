@@ -1,0 +1,34 @@
+### CREATE
+POST http://localhost:8080/tag/adm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI
+
+{
+  "key": "y1",
+  "nameUz": "y1UZ",
+  "nameRu": "1RU",
+  "nameEn": "1EN"
+}
+
+### GET BY PAGINATION
+GET http://localhost:8080/tag/public/list
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI
+
+### GET BY LANG
+GET http://localhost:8080/tag/public/list/ru
+
+### UPDATE
+PUT http://localhost:8080/tag/adm/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI
+
+{
+  "key": "key1",
+  "nameUz": "tag1UZ",
+  "nameRu": "tag1RU",
+  "nameEn": "tag1EN"
+}
+
+### DELETE
+DELETE http://localhost:8080/tag/adm/delete/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzM2MjY5LCJleHAiOjE2NTIzMzk4NjksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.GFs2ThUpvvLUr3mlupcFKlmJaNwF5eKRlUaY4sC1TaI

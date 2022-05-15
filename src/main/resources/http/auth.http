@@ -1,0 +1,19 @@
+### REGISTRATION
+POST http://localhost:8080/auth/registration
+Content-Type: application/json
+
+{
+  "name": "alijon",
+  "surname": "aliyev",
+  "email": "bahromovjamshid503@gmail.com",
+  "password": "111111"
+}
+
+###LOGIN
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+"email": "bahromovjamshid503@gmail.com",
+"password": "111111"
+}

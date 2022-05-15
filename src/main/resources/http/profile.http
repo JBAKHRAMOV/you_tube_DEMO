@@ -1,0 +1,33 @@
+### CREATE
+
+POST http://localhost:8080/profile/adm
+Content-Type: application/json
+
+{
+  "name": "alijon",
+  "surname": "aliyev",
+  "email": "bahromov@gmail.com",
+  "password": "111111",
+  "role": "USER"
+}
+
+### GET BY ID
+GET http://localhost:8080/profile/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNTUxNDQ0LCJleHAiOjE2NTI1NTUwNDQsImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.ZFiSOZod9vtHcnK6iQ8zo6bXepTdhrR4dOxFdlWLiX0
+
+
+### UPDATE
+PUT http://localhost:8080/profile/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNjEzNDQ5LCJleHAiOjE2NTI2MTcwNDksImlzcyI6Imt1biB1eiIsInJvbGUiOiJVU0VSIn0.8lSTMVOcL2wbza3hoP1JkwCbU0lcVOwyBwpdp8JQCyg
+
+{
+  "name": "valijon",
+  "surname": "valiyev"
+}
+
+### DELETE
+DELETE http://localhost:8080/profile/delete/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUyMzMxOTg5LCJleHAiOjE2NTIzMzU1ODksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24iLCJyb2xlIjoiVVNFUiJ9.odzqlYNg91_duN_Ezyj58MkhHi94zPjfL27y4u2gHJ8
+
+
