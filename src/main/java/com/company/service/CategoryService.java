@@ -27,16 +27,32 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+<<<<<<< HEAD
     public CategoryDTO create(CategoryDTO dto) {
         CategoryEntity category = categoryRepository.findByName(dto.getName());
         if (category != null) {
             log.warn("category alredy exists : {}", dto );
             throw new CategoryAlredyExistsException("Category Already Exists");
         }
+=======
+    /** CREATE category */
+    public CategoryDTO create(CategoryDTO dto) {
+
+        CategoryEntity category = categoryRepository.findByName(dto.getName());
+
+        if (category != null) {
+
+            log.warn("category alredy exists : {}", dto );
+
+            throw new CategoryAlredyExistsException("Category Already Exists");
+        }
+
+>>>>>>> 243834d (Initial commit)
         CategoryEntity entity = new CategoryEntity();
         entity.setName(dto.getName());
 
         categoryRepository.save(entity);
+<<<<<<< HEAD
         dto.setId(entity.getId());
         return dto;
     }
@@ -80,15 +96,69 @@ public class CategoryService {
             throw new AppForbiddenException("Not access");
         }
         Optional<CategoryEntity> optional = categoryRepository.findById(id);
+=======
+
+        dto.setId(entity.getId());
+
+        return dto;
+    }
+
+    /** GET PAGINATION LIST */
+    public PageImpl<CategoryDTO> getList(int page, int size) {
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<CategoryEntity> pagination = categoryRepository.findAll(pageable);
+
+        List<CategoryEntity> entityList = pagination.getContent();
+
+        long totalElement = pagination.getTotalElements();
+
+        List<CategoryDTO> dtoList = entityList.stream().map(this::toDTO).toList();
+
+        return new PageImpl<CategoryDTO>(dtoList, pageable, totalElement);
+    }
+
+    /** GET BY ID */
+    public CategoryDTO getById(Integer id) {
+
+        Optional<CategoryEntity> optional = categoryRepository.findById(id);
+
+        if (optional.isEmpty()) {
+
+            log.warn("id not found : {}", id );
+
+            throw new AppBadRequestException("Id Not Found");
+        }
+
+        CategoryEntity category = optional.get();
+
+        return toDTO(category);
+    }
+
+    /** UPDATE */
+    public String update(Integer id, CategoryDTO dto) {
+
+        Optional<CategoryEntity> optional = categoryRepository.findById(id);
+        CategoryEntity entity = categoryRepository.findByName(dto.getName());
+
+>>>>>>> 243834d (Initial commit)
         if (optional.isEmpty()) {
             log.warn("id not found : {}", id );
             throw new AppBadRequestException("Id Not Found");
         }
+<<<<<<< HEAD
         CategoryEntity entity = categoryRepository.findByName(dto.getName());
+=======
+
+>>>>>>> 243834d (Initial commit)
         if (entity != null) {
             log.warn("category alredy exists : {}", dto );
             throw new CategoryAlredyExistsException("Category alredy exists");
         }
+<<<<<<< HEAD
         CategoryEntity category = optional.get();
         entity.setName(dto.getName());
         categoryRepository.save(category);
@@ -151,4 +221,45 @@ public class CategoryService {
         }
         return list;
     }
+=======
+
+        CategoryEntity category = optional.get();
+        entity.setName(dto.getName());
+        categoryRepository.save(category);
+
+        return "Success";
+    }
+
+    /** DELETE */
+    public String delete(Integer id) {
+
+        Optional<CategoryEntity> optional = categoryRepository.findById(id);
+
+        if (optional.isEmpty()) {
+
+            log.warn("id not found : {}", id );
+
+            throw new AppBadRequestException("Id Not Found");
+        }
+
+        categoryRepository.deleteById(id);
+
+        return "Success";
+    }
+
+
+
+
+    /**
+     * ASSISTANT METHODS
+     */
+    private CategoryDTO toDTO(CategoryEntity entity) {
+
+        CategoryDTO dto = new CategoryDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+
+        return dto;
+    }
+>>>>>>> 243834d (Initial commit)
 }

@@ -15,6 +15,7 @@ public class SecuredFilterConfig {
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(jwtTokenFilter);
+<<<<<<< HEAD
         bean.addUrlPatterns("/region/adm/*");
         bean.addUrlPatterns("/article_type/adm/*");
         bean.addUrlPatterns("/category/adm/*");
@@ -25,6 +26,11 @@ public class SecuredFilterConfig {
         bean.addUrlPatterns("/comment/adm/*");
         bean.addUrlPatterns("/like/adm/*");
         bean.addUrlPatterns("/like/profile/*");
+=======
+        bean.addUrlPatterns("/category/adm/*");
+        bean.addUrlPatterns("/profile/adm/*");
+        bean.addUrlPatterns("/attach/adm/*");
+>>>>>>> 243834d (Initial commit)
         bean.addUrlPatterns("/tag/adm/*");
         return bean;
     }

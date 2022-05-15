@@ -39,6 +39,10 @@ public class AttachService {
     @Value("${server.domain.name}")
     private String domainName;
 
+<<<<<<< HEAD
+=======
+    /** UPLOAD attach */
+>>>>>>> 243834d (Initial commit)
     public AttachDTO upload(MultipartFile file) {
         String pathFolder = getYmDString(); // 2022/04/23
         File folder = new File(attachFolder + pathFolder);
@@ -62,7 +66,12 @@ public class AttachService {
         return dto;
     }
 
+<<<<<<< HEAD
     public AttachEntity uploadForProfile(MultipartFile file) {
+=======
+    /** UPLOAD profile attach */
+    public AttachEntity uploadGeneric(MultipartFile file) {
+>>>>>>> 243834d (Initial commit)
         String pathFolder = getYmDString(); // 2022/04/23
         File folder = new File(attachFolder + pathFolder);
         if (!folder.exists()) {
@@ -84,6 +93,10 @@ public class AttachService {
         return entity;
     }
 
+<<<<<<< HEAD
+=======
+    /** OPEN by id */
+>>>>>>> 243834d (Initial commit)
     public byte[] open_general(String key) {
         byte[] data;
         try {
@@ -98,6 +111,10 @@ public class AttachService {
         return new byte[0];
     }
 
+<<<<<<< HEAD
+=======
+    /** DOWNLOAD attach */
+>>>>>>> 243834d (Initial commit)
     public ResponseEntity<Resource> download(String key) { // images.png
         try {
             AttachEntity entity = get(key);
@@ -119,18 +136,33 @@ public class AttachService {
         }
     }
 
+<<<<<<< HEAD
+=======
+    /** UPDATE attch */
+>>>>>>> 243834d (Initial commit)
     public AttachDTO update(MultipartFile fileDto, String key ){
         if (delete(key)) {
             return upload(fileDto);
         } else throw new AppBadRequestException("Could not read the file!");
     }
 
+<<<<<<< HEAD
     public AttachEntity updateForProfile(MultipartFile fileDto, String key ){
         if (delete(key)) {
             return uploadForProfile(fileDto);
         } else throw new AppBadRequestException("Could not read the file!");
     }
 
+=======
+    /**UPDATE profile attach*/
+    public AttachEntity updateGeneric(MultipartFile fileDto, String key ){
+        if (delete(key)) {
+            return uploadGeneric(fileDto);
+        } else throw new AppBadRequestException("Could not read the file!");
+    }
+
+    /** DELETE */
+>>>>>>> 243834d (Initial commit)
     public Boolean delete(String key) {
         AttachEntity entity = get(key);
 
@@ -143,6 +175,15 @@ public class AttachService {
         } else throw new AppBadRequestException("Could not read the file!");
 
     }
+<<<<<<< HEAD
+=======
+
+
+    /**
+     *    ASSISTANT METHODS
+     */
+
+>>>>>>> 243834d (Initial commit)
     public String getYmDString() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
@@ -172,6 +213,10 @@ public class AttachService {
         dto.setId(entity.getId());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setOrigenName(entity.getOrigenName());
+<<<<<<< HEAD
+=======
+        dto.setSize(entity.getSize());
+>>>>>>> 243834d (Initial commit)
         dto.setPath(entity.getPath());
         dto.setUrl(domainName + "/attach/download/" + entity.getId());
         return dto;

@@ -16,5 +16,15 @@ public class CategoryDTO {
     private String name;
     private LocalDateTime createDate=LocalDateTime.now();
 
+<<<<<<< HEAD
 
+=======
+    public CategoryDTO() {
+    }
+
+    public CategoryDTO(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+>>>>>>> 243834d (Initial commit)
 }

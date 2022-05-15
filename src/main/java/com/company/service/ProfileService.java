@@ -91,6 +91,7 @@ public class ProfileService {
     }
 
     /** UPDATE PHOTO profile  */
+<<<<<<< HEAD
     public boolean updateImage(MultipartFile file, Integer pId) {
         ProfileEntity profileEntity = get(pId);
 
@@ -103,6 +104,19 @@ public class ProfileService {
         }
 
         profileRepository.save(profileEntity);
+=======
+        public boolean updateImage(MultipartFile file, Integer pId) {
+        ProfileEntity entity = get(pId);
+
+        if (entity.getAttach() !=null ) {
+            entity.setAttach(attachService.updateGeneric(file,entity.getAttach().getId()));
+        } else if (entity.getAttach() == null) {
+            entity.setAttach(attachService.uploadGeneric(file));
+
+        }
+
+        profileRepository.save(entity);
+>>>>>>> 243834d (Initial commit)
 
         return true;
     }
