@@ -7526,3 +7526,8 @@ https://vladmihalcea.com/hypersistence-optimizer/
 2022-05-15 16:17:28 - o.s.web.servlet.DispatcherServlet - [34mINFO [0;39m - Completed initialization in 2 ms
 2022-05-15 16:17:28 - c.company.controller.AuthController - [34mINFO [0;39m - Login: AuthDTO(email=bahromovjamshid503@gmail.com, password=111111)
 2022-05-15 16:18:07 - c.c.controller.ProfileController - [34mINFO [0;39m - update student: com.company.changeDto.NameSurChangeDTO@773a9984
+2022-05-15 21:53:18 - com.zaxxer.hikari.pool.HikariPool - [31mWARN [0;39m - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h2m34s935ms722µs500ns).
+2022-05-15 21:54:03 - com.zaxxer.hikari.pool.HikariPool - [31mWARN [0;39m - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=52s275ms741µs200ns).
+2022-05-15 21:55:49 - o.s.o.j.LocalContainerEntityManagerFactoryBean - [34mINFO [0;39m - Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-05-15 21:55:50 - com.zaxxer.hikari.HikariDataSource - [34mINFO [0;39m - HikariPool-1 - Shutdown initiated...
+2022-05-15 21:55:50 - com.zaxxer.hikari.HikariDataSource - [34mINFO [0;39m - HikariPool-1 - Shutdown completed.
