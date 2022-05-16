@@ -1,7 +1,6 @@
 package com.company.service;
 
-<<<<<<< HEAD
-import com.company.changeDto.ChannelDto;
+import com.company.dto.ChannelDto;
 import com.company.entity.ChannelEntity;
 import com.company.enums.GeneralStatus;
 import com.company.exception.ChannelAlredyExistsException;
@@ -9,58 +8,40 @@ import com.company.repository.ChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-=======
 import com.company.changeDto.ChannelStatusDTO;
-import com.company.dto.CategoryDTO;
-import com.company.dto.ChannelDto;
-import com.company.entity.CategoryEntity;
-import com.company.entity.ChannelEntity;
-import com.company.enums.GeneralStatus;
 import com.company.enums.ProfileRole;
-import com.company.exception.ChannelAlredyExistsException;
 import com.company.exception.ItemNotFoundException;
-import com.company.repository.ChannelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
->>>>>>> 243834d (Initial commit)
 import java.util.UUID;
 @Service
 public class ChannelService {
     @Autowired
     private ChannelRepository channelRepository;
-<<<<<<< HEAD
+    @Autowired
+    private AttachService attachService;
 
-    public ChannelDto create(ChannelDto  dto){
-        if (channelRepository.findByName(dto.getName()).get() !=null){
-            throw  new ChannelAlredyExistsException("Channel alredy exists");
-        }
-        ChannelEntity entity=new ChannelEntity();
-=======
-    @Autowired AttachService attachService;
 
-    public ChannelDto create(Integer pId,ChannelDto  dto){
+    public ChannelDto create(Integer pId, ChannelDto dto){
         ChannelEntity entity = channelRepository.findByName(dto.getName()).get();
         if (entity != null){
             throw  new ChannelAlredyExistsException("Channel alredy exists");
         }
 
->>>>>>> 243834d (Initial commit)
+
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setKey(UUID.randomUUID().toString());
         entity.setStatus(GeneralStatus.ACTIVE);
-<<<<<<< HEAD
+
         channelRepository.save(entity);
         dto.setCreateDate(entity.getCreateDate());
         dto.setKey(entity.getKey());
         dto.setId(entity.getId());
 
-=======
         entity.setProfileId(pId);
 
         channelRepository.save(entity);
@@ -176,7 +157,6 @@ public class ChannelService {
         }else if (entity.getBanner()!=null){
             dto.setBannerURL(attachService.getPhotoURL(entity.getBanner()));
         }
->>>>>>> 243834d (Initial commit)
         return dto;
     }
 
