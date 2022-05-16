@@ -1,8 +1,10 @@
 package com.company.controller;
 
 import com.company.dto.AuthDTO;
+import com.company.dto.ProfileDTO;
 import com.company.dto.RegistrationDTO;
 import com.company.service.AuthService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,10 @@ import javax.validation.Valid;
 public class AuthController {
     @Autowired
     private AuthService authService;
+
+    @ApiOperation(value = "Login", notes = "This method for login")
     @PostMapping("/login")
-    public ResponseEntity<?> create(@RequestBody @Valid AuthDTO dto) {
+    public ResponseEntity<ProfileDTO> create(@RequestBody @Valid AuthDTO dto) {
         log.info("Login: {}", dto);
         return ResponseEntity.ok(authService.login(dto));
     }

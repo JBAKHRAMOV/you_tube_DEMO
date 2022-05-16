@@ -13,6 +13,7 @@ import com.company.exception.ItemNotFoundException;
 import com.company.repository.ProfileRepository;
 import com.company.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +43,8 @@ public class ProfileService {
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setEmail(dto.getEmail());
-        entity.setPassword(dto.getPassword());
+        String password = DigestUtils.md5Hex(dto.getPassword());
+        entity.setPassword(password);
         entity.setRole(dto.getRole());
         entity.setStatus(ProfileStatus.ACTIVE);
         profileRepository.save(entity);
@@ -119,12 +121,14 @@ public class ProfileService {
 
     /** CHANGE PASSWORD profile  */
     public String changePassword(ChangePswdDTO dto){
-        Optional<ProfileEntity> optional= Optional.ofNullable(profileRepository.findByEmailAndPassword(dto.getEmail(), dto.getOldPassword())
+        String password = DigestUtils.md5Hex(dto.getOldPassword());
+        Optional<ProfileEntity> optional= Optional.ofNullable(profileRepository.findByEmailAndPassword(dto.getEmail(), password)
                 .orElseThrow(() -> {
                     throw new ItemNotFoundException("Email or old Password wrong");
                 }));
         ProfileEntity entity=optional.get();
-        entity.setPassword(dto.getNewPassword());
+        String newPassword = DigestUtils.md5Hex(dto.getNewPassword());
+        entity.setPassword(newPassword);
         entity.setUpdateDate(LocalDateTime.now());
 
         profileRepository.save(entity);

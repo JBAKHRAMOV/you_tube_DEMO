@@ -54,7 +54,7 @@ public class ProfileController {
     }
 
 
-    @PostMapping("/image")
+    @PutMapping("/image")
     public ResponseEntity<?> updateImage(@RequestParam("file") MultipartFile file,
                                          HttpServletRequest request) {
         Integer pId=JwtUtil.getIdFromHeader(request);
@@ -69,7 +69,7 @@ public class ProfileController {
 
     }
 
-    @PostMapping("/changePswd")
+    @PutMapping("/changePswd")
     public ResponseEntity<?> changePswd(@RequestBody @Valid ChangePswdDTO dto,
                                         HttpServletRequest request){
         JwtUtil.getIdFromHeader(request,ProfileRole.USER);
@@ -77,7 +77,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.changePassword(dto));
     }
 
-    @PostMapping("/changeEmail")
+    @PutMapping("/changeEmail")
     public ResponseEntity<?> changeEmail(@RequestBody @Valid ChangeEmailDTO dto,
                                         HttpServletRequest request){
         Integer pId=JwtUtil.getIdFromHeader(request,ProfileRole.USER);
@@ -85,7 +85,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.changeEmail(dto, pId));
     }
 
-    @PostMapping("/changeEmailVer/{jwt}")
+    @PutMapping("/changeEmailVer/{jwt}")
     public ResponseEntity<?> emailVerification(@PathVariable("jwt") String jwt){
         log.info("chnage password: {}",jwt);
         return ResponseEntity.ok(profileService.changeEmailVerification(jwt));

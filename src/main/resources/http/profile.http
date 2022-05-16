@@ -19,7 +19,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNTUxNDQ0L
 ### UPDATE
 PUT http://localhost:8080/profile/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNjEzNDQ5LCJleHAiOjE2NTI2MTcwNDksImlzcyI6Imt1biB1eiIsInJvbGUiOiJVU0VSIn0.8lSTMVOcL2wbza3hoP1JkwCbU0lcVOwyBwpdp8JQCyg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNjgxMzk2LCJleHAiOjE2NTI2ODQ5OTYsImlzcyI6Imt1biB1eiIsInJvbGUiOiJVU0VSIn0.zl-oj89n4CWMkyvviJ5kK3v1jJW5r3r3kt-P_R-cD_o
 
 {
   "name": "valijon",

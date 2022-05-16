@@ -12,6 +12,7 @@ import java.util.List;
 public interface ChannelRepository extends JpaRepository<ChannelEntity, Integer> {
     Optional<ChannelEntity> findByName(String name);
     Optional<ChannelEntity> findByProfileIdAndKey(Integer pId,String key);
+    Optional<ChannelEntity> findByProfileIdAndId(Integer pId,Integer integer);
     Page<ChannelEntity> findByProfileId(Integer pId, Pageable pageable);
     Optional<ChannelEntity> findByKey(String key);
 }

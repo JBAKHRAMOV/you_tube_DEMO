@@ -11,13 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "category")
-public class CategoryEntity {
+public class CategoryEntity extends BaseEntity{
 //    id,name,created_date
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     @Column(name = "name",nullable = false, unique = true)
     private String name;
-    @CreationTimestamp
-    private LocalDateTime createdDate;
 }
