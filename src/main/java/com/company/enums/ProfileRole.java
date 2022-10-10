@@ -1,5 +1,5 @@
 package com.company.enums;
 
 public enum ProfileRole {
-    ADMIN , USER , MODERATOR
+    ADMIN , USER
 }

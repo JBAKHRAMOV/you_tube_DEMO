@@ -4,7 +4,6 @@ import com.company.enums.VideoStatus;
 import com.company.enums.VideoType;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ public class VideoDto  {
     private VideoType type;
     private Integer viewCount;
     private Integer sharedCount;
-    private String previewAttchId;
+    private String previewAttachId;
     private Integer categoryId;
     private String videoId;
     private Integer channelId;

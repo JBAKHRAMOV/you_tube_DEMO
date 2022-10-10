@@ -13,12 +13,6 @@ import java.util.UUID;
 @Entity
 @Table
 public class VideoEntity extends BaseEntity{
-    //id, created_date, published_date  *
-    //key, title, description,  *
-    // preview_attach_id, category_id, attach_id, channel_id, *
-    // status(private,public), type(video,short)  *
-    // like(like_count,dislike_count)
-    // view_count , shared_count,
 
     @Column
     private UUID key;
@@ -43,10 +37,10 @@ public class VideoEntity extends BaseEntity{
     @Column
     private Integer sharedCount;
 
-    @Column(name = "preview_attch_id")
-    private String previewAttchId;
+    @Column(name = "preview_attach_id")
+    private String previewAttachId;
     @OneToOne
-    @JoinColumn(name = "preview_attch_id")
+    @JoinColumn(name = "preview_attach_id", insertable = false, updatable = false)
     private AttachEntity previewAttach;
 
     @Column(name = "category_id")

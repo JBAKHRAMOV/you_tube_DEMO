@@ -22,7 +22,7 @@ public class ExceptionHandlerController {
     }
 
     @ExceptionHandler({TokenNotValidException.class})
-    public ResponseEntity<?> mazgi(TokenNotValidException e) {
+    public ResponseEntity<?> unAuthorized(TokenNotValidException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 }

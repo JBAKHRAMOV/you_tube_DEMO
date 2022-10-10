@@ -2,17 +2,16 @@ package com.company.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "category")
+@Table()
 public class CategoryEntity extends BaseEntity{
-//    id,name,created_date
-    @Column(name = "name",nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 }

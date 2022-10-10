@@ -12,9 +12,9 @@ import javax.validation.constraints.Size;
 @Getter
 @ToString
 public class AuthDTO {
-    @Email(message = "email requaried")
+    @Email(message = "email required")
     private String email;
     @NotBlank(message = "Password required")
-    @Size(min = 4, max = 15, message = "password erors")
+    @Size(min = 4, max = 15, message = "password errors")
     private String password;
 }

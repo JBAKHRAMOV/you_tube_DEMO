@@ -1,19 +1,19 @@
 package com.company.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecuredFilterConfig {
 
-    @Autowired
-    private JwtFilter jwtTokenFilter;
+    private final JwtFilter jwtTokenFilter;
 
     @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean bean = new FilterRegistrationBean();
+    public FilterRegistrationBean<JwtFilter> filterRegistrationBean() {
+        FilterRegistrationBean<JwtFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(jwtTokenFilter);
         bean.addUrlPatterns("/category/adm/*");
         bean.addUrlPatterns("/profile/adm/*");

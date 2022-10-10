@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 public class JwtUtil {
-    private final static String secretKey = "kalitso'z";
+    private final static String secretKey = "secretKey";
 
     public static String encode(Integer id, ProfileRole role) { // 3 -> dsasdasda.asdasdasd.asdasdsa
         return doEncode(id, role, 60);
@@ -128,7 +128,6 @@ public class JwtUtil {
             jwtBuilder.claim("role", email);
         }
 
-        String jwt = jwtBuilder.compact();
-        return jwt;
+        return jwtBuilder.compact();
     }
 }

@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "email_history")
+@Table()
 @Getter
 @Setter
 public class EmailEntity {

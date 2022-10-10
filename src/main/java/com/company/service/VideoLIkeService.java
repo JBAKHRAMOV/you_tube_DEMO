@@ -1,28 +1,27 @@
-package com.company.repository;
+package com.company.service;
 
 import com.company.dto.LikeCountDTO;
 import com.company.dto.VideoLikeDto;
-import com.company.entity.VideoEntity;
 import com.company.entity.VideoLikeEntity;
 import com.company.enums.LikeType;
-import com.company.enums.VideoType;
 import com.company.exception.ItemNotFoundException;
 import com.company.exception.VideoLikeAlreadyExistsException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.company.repository.VideoLikeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class VideoLIkeService {
-    @Autowired
-    private VideoLikeRepository videoLikeRepository;
+
+    private final VideoLikeRepository videoLikeRepository;
 
     public VideoLikeDto create(Integer pId,VideoLikeDto dto){
         videoLikeRepository.findByProfileIdAndVideoKey(pId, dto.getVideoKey())
-                .orElseThrow(()->{throw new VideoLikeAlreadyExistsException("alredy exists");});
+                .orElseThrow(()->{throw new VideoLikeAlreadyExistsException("Already exists");});
 
         VideoLikeEntity entity=new VideoLikeEntity();
         entity.setProfileId(pId);

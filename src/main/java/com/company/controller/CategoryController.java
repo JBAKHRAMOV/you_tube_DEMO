@@ -1,12 +1,11 @@
 package com.company.controller;
 
 import com.company.dto.CategoryDTO;
-import com.company.enums.LangEnum;
 import com.company.enums.ProfileRole;
 import com.company.service.CategoryService;
 import com.company.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +15,16 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/category")
+@RequiredArgsConstructor
 public class CategoryController {
-    @Autowired
-    private CategoryService categoryService;
+
+    private final CategoryService categoryService;
 
     @PostMapping("/adm")
     public ResponseEntity<?> create(@RequestBody @Valid CategoryDTO dto,
                                     HttpServletRequest request) {
         JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
-        log.info("create : {}", dto );
+        log.info("create : {}", dto);
         return ResponseEntity.ok(categoryService.create(dto));
     }
 
@@ -33,7 +33,7 @@ public class CategoryController {
                                      @RequestParam(value = "size", defaultValue = "3") int size,
                                      HttpServletRequest request) {
         JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
-        log.info("find all : {}", "page: "+page+" size: "+size );
+        log.info("find all : {}", "page: " + page + " size: " + size);
         return ResponseEntity.ok(categoryService.getList(page, size));
     }
 
@@ -41,7 +41,7 @@ public class CategoryController {
     public ResponseEntity<?> getById(@PathVariable("id") Integer id,
                                      HttpServletRequest request) {
         JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
-        log.info("get by id : {}", id );
+        log.info("get by id : {}", id);
         return ResponseEntity.ok(categoryService.getById(id));
     }
 
@@ -50,7 +50,7 @@ public class CategoryController {
                                     @RequestBody @Valid CategoryDTO dto,
                                     HttpServletRequest request) {
         JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
-        log.info("update : {}", "id: "+id+" "+dto );
+        log.info("update : {}", "id: " + id + " " + dto);
         return ResponseEntity.ok(categoryService.update(id, dto));
     }
 
@@ -58,7 +58,7 @@ public class CategoryController {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
                                     HttpServletRequest request) {
         JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
-        log.info("delete : {}", id );
+        log.info("delete : {}", id);
         return ResponseEntity.ok(categoryService.delete(id));
     }
 }

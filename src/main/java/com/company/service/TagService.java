@@ -5,8 +5,8 @@ import com.company.entity.TagEntity;
 import com.company.exception.ItemAlreadyExistsException;
 import com.company.exception.ItemNotFoundException;
 import com.company.repository.TagRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,10 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class TagService {
-    @Autowired
-    private TagRepository tagRepository;
+
+    private final TagRepository tagRepository;
 
     /** CREATE */
     public TagDTO create(TagDTO dto) {
@@ -26,7 +27,7 @@ public class TagService {
 
         if (optional.isPresent()) {
 
-            log.warn("tag alredy used : {}", dto );
+            log.warn("tag already used : {}", dto );
             throw new ItemAlreadyExistsException("This Tag already used!");
         }
 
@@ -55,7 +56,7 @@ public class TagService {
 
         List<TagDTO> dtoList = entityList.stream().map(this::toDTO).toList();
 
-        return new PageImpl<TagDTO>(dtoList, pageable, totalElement);
+        return new PageImpl<>(dtoList, pageable, totalElement);
     }
 
     /** UPDATE */

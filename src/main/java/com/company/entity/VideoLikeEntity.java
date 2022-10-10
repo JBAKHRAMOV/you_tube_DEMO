@@ -1,16 +1,17 @@
 package com.company.entity;
 
 import com.company.enums.LikeType;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table
-@Data
+@Setter
+@Getter
 public class VideoLikeEntity {
-//    id,profile_id,video_id,created_date,type(Like,Dislike)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

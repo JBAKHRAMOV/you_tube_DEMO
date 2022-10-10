@@ -35,7 +35,7 @@ public class ProfileDTO {
 
     private String jwt;
 
-    private LocalDateTime createDate=LocalDateTime.now();
+    private LocalDateTime createDate = LocalDateTime.now();
     private LocalDateTime updateDate;
 
     private AttachDTO attachDto;

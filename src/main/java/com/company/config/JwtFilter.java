@@ -24,9 +24,9 @@ public class JwtFilter extends GenericFilterBean {
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || authHeader.isEmpty() || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setHeader("Message", "Token qani mazgi.");
+            response.setHeader("Message", "Token not found");
             return;
         }
         try {

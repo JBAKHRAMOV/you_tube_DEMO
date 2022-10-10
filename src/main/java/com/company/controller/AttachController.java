@@ -3,8 +3,8 @@ package com.company.controller;
 import com.company.enums.ProfileRole;
 import com.company.service.AttachService;
 import com.company.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @RequestMapping("/attach")
+@RequiredArgsConstructor
 public class AttachController {
-    @Autowired
-    private AttachService attachService;
+
+    private final AttachService attachService;
 
     @PostMapping("/upload")
     public ResponseEntity<?> create(@RequestParam("file") MultipartFile file) {
@@ -49,7 +50,7 @@ public class AttachController {
     public ResponseEntity<?> list(@RequestParam(value = "page", defaultValue = "0") int page,
                                   @RequestParam(value = "size", defaultValue = "3") int size,
                                   HttpServletRequest request) {
-        log.info("list : {}", "page: "+page , " size: "+size );
+        log.info("list page: {}, size: {}",page, size );
         JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(attachService.paginationList(page, size));
     }

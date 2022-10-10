@@ -1,20 +1,19 @@
 package com.company.service;
 
 import com.company.changeDto.ChangeEmailDTO;
-import com.company.changeDto.ChangePswdDTO;
+import com.company.changeDto.ChangePasswdDTO;
 import com.company.changeDto.NameSurChangeDTO;
 import com.company.dto.ProfileDTO;
 import com.company.dto.ProfileEmailJwtDTO;
-import com.company.entity.AttachEntity;
 import com.company.entity.ProfileEntity;
 import com.company.enums.ProfileStatus;
 import com.company.exception.EmailAlreadyExistsException;
 import com.company.exception.ItemNotFoundException;
 import com.company.repository.ProfileRepository;
 import com.company.util.JwtUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,20 +22,19 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class ProfileService {
-    @Autowired
-    private ProfileRepository profileRepository;
-    @Autowired
-    private AttachService attachService;
-    @Autowired
-    private EmailService emailService;
+
+    private final ProfileRepository profileRepository;
+    private final AttachService attachService;
+    private final EmailService emailService;
 
     /** CREATE profile ( admin ) */
     public ProfileDTO create(ProfileDTO dto) {
 
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
         if (optional.isPresent()) {
-            log.warn("email alredy exists : {}", dto );
+            log.warn("email already exists : {}", dto );
             throw new EmailAlreadyExistsException("Email Already Exits");
         }
         ProfileEntity entity = new ProfileEntity();
@@ -120,12 +118,16 @@ public class ProfileService {
     }
 
     /** CHANGE PASSWORD profile  */
-    public String changePassword(ChangePswdDTO dto){
+    public String changePassword(ChangePasswdDTO dto){
         String password = DigestUtils.md5Hex(dto.getOldPassword());
         Optional<ProfileEntity> optional= Optional.ofNullable(profileRepository.findByEmailAndPassword(dto.getEmail(), password)
                 .orElseThrow(() -> {
                     throw new ItemNotFoundException("Email or old Password wrong");
                 }));
+        if (optional.isEmpty()){
+            throw new ItemNotFoundException("Email or old Password wrong");
+        }
+
         ProfileEntity entity=optional.get();
         String newPassword = DigestUtils.md5Hex(dto.getNewPassword());
         entity.setPassword(newPassword);
@@ -139,12 +141,7 @@ public class ProfileService {
     public String changeEmail(ChangeEmailDTO dto, Integer pId){
         profileRepository.findById(pId)
                 .orElseThrow(()->{throw new ItemNotFoundException("Item not found");});
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                sendVerificationEmail(dto, pId);
-            }
-        };
+        Thread thread = new Thread(() -> sendVerificationEmail(dto, pId));
         thread.start();
         return "Send email link ";
     }
@@ -153,8 +150,13 @@ public class ProfileService {
     public  String changeEmailVerification(String jwt){
         ProfileEmailJwtDTO dto =JwtUtil.decodeEmail(jwt);
 
-        ProfileEntity entity=profileRepository.findById(dto.getId()).get();
+        var optional=profileRepository.findById(dto.getId());
 
+        if (optional.isEmpty()){
+            throw new ItemNotFoundException("Profile not found");
+        }
+
+        ProfileEntity entity= optional.get();
         entity.setEmail(dto.getEmail());
 
         profileRepository.save(entity);
@@ -195,10 +197,10 @@ public class ProfileService {
     private void sendVerificationEmail(ChangeEmailDTO dto, Integer pId) {
         StringBuilder builder = new StringBuilder();
         String jwt = JwtUtil.encodeEmail(pId,dto.getNewEmail());
-        builder.append("Salom bormsin \n");
+        builder.append("Hello How are you \n");
         builder.append("To verify your registration click to next link.");
         builder.append("http://localhost:8080/profile/changeEmailVer/").append(jwt);
-        builder.append("\nMazgi!");
+        builder.append("\nEnter link!");
         emailService.send(dto.getNewEmail(), "Activate Your Registration", builder.toString());
 
     }

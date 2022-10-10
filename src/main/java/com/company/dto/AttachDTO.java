@@ -20,8 +20,4 @@ public class AttachDTO {
     public AttachDTO() {
 
     }
-
-    public AttachDTO(String url) {
-        this.url = url;
-    }
 }

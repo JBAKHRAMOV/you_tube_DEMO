@@ -5,8 +5,8 @@ import com.company.dto.ProfileDTO;
 import com.company.dto.RegistrationDTO;
 import com.company.service.AuthService;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +15,10 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    @Autowired
-    private AuthService authService;
+
+    private final AuthService authService;
 
     @ApiOperation(value = "Login", notes = "This method for login")
     @PostMapping("/login")
@@ -35,7 +36,7 @@ public class AuthController {
 
     @GetMapping("/verification/{jwt}")
     public ResponseEntity<?> verification(@PathVariable("jwt") String jwt) {
-        log.info("verification : {}", jwt );
+        log.info("verification : {}", jwt);
         authService.verification(jwt);
         return ResponseEntity.ok().build();
     }

@@ -12,16 +12,15 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
-@Table(name = "attach")
+@Table()
 public class AttachEntity {
-   // id(uuid),origin_name,size,type (extension),path
     @Id
     private String id; // uuid
     @Column
     private String path;
     @Column
     private String extension;
-    @Column(name = "origen_name")
+    @Column()
     private String origenName;
     @Column()
     private Long size;

@@ -2,41 +2,32 @@ package com.company.service;
 
 import com.company.dto.CategoryDTO;
 import com.company.entity.CategoryEntity;
-import com.company.entity.ProfileEntity;
-import com.company.enums.LangEnum;
-import com.company.enums.ProfileRole;
 import com.company.exception.AppBadRequestException;
-import com.company.exception.AppForbiddenException;
-import com.company.exception.CategoryAlredyExistsException;
+import com.company.exception.CategoryAlreadyExistsException;
 import com.company.repository.CategoryRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class CategoryService {
-    @Autowired
-    private ProfileService profileService;
-    @Autowired
-    private CategoryRepository categoryRepository;
+
+    private final CategoryRepository categoryRepository;
 
     /** CREATE category */
     public CategoryDTO create(CategoryDTO dto) {
 
-        CategoryEntity category = categoryRepository.findByName(dto.getName());
+        var optional = categoryRepository.findByName(dto.getName());
 
-        if (category != null) {
-
-            log.warn("category alredy exists : {}", dto );
-
-            throw new CategoryAlredyExistsException("Category Already Exists");
+        if (optional.isPresent()) {
+            log.warn("category already exists : {}", dto );
+            throw new CategoryAlreadyExistsException("Category Already Exists");
         }
 
         CategoryEntity entity = new CategoryEntity();
@@ -64,7 +55,7 @@ public class CategoryService {
 
         List<CategoryDTO> dtoList = entityList.stream().map(this::toDTO).toList();
 
-        return new PageImpl<CategoryDTO>(dtoList, pageable, totalElement);
+        return new PageImpl<>(dtoList, pageable, totalElement);
     }
 
     /** GET BY ID */
@@ -88,19 +79,19 @@ public class CategoryService {
     public String update(Integer id, CategoryDTO dto) {
 
         Optional<CategoryEntity> optional = categoryRepository.findById(id);
-        CategoryEntity entity = categoryRepository.findByName(dto.getName());
+        var optional1 = categoryRepository.findByName(dto.getName());
         if (optional.isEmpty()) {
             log.warn("id not found : {}", id );
             throw new AppBadRequestException("Id Not Found");
         }
 
-        if (entity != null) {
-            log.warn("category alredy exists : {}", dto );
-            throw new CategoryAlredyExistsException("Category alredy exists");
+        if (optional1.isPresent()) {
+            log.warn("category already exists : {}", dto );
+            throw new CategoryAlreadyExistsException("Category already exists");
         }
 
         CategoryEntity category = optional.get();
-        entity.setName(dto.getName());
+        category.setName(dto.getName());
         categoryRepository.save(category);
 
         return "Success";

@@ -5,8 +5,8 @@ import com.company.entity.AttachEntity;
 import com.company.exception.AppBadRequestException;
 import com.company.exception.ItemNotFoundException;
 import com.company.repository.AttachRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -31,23 +32,24 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class AttachService {
-    @Autowired
-    private AttachRepository attachRepository;
+
+    private final AttachRepository attachRepository;
     @Value("${attach.upload.folder}")
     private String attachFolder;
     @Value("${server.domain.name}")
     private String domainName;
 
     public AttachDTO upload(MultipartFile file) {
-        String pathFolder = getYmDString(); // 2022/04/23
-        File folder = new File(attachFolder + pathFolder);
+        String pathFolder = getYmDString();
+        File folder = new File(attachFolder + getYmDString());//getYmDString() => 2022/04/23
         if (!folder.exists()) {
             folder.mkdirs();
         }
 
         String key = UUID.randomUUID().toString(); // dasdasd-dasdasda-asdasda-asdasd
-        String extension = getExtension(file.getOriginalFilename()); // dasda.asdas.dasd.jpg
+        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename()); // dasda.asdas.dasd.jpg
 
         AttachEntity entity = saveAttach(key, pathFolder, extension, file);
         AttachDTO dto = toDTO(entity);
@@ -62,7 +64,9 @@ public class AttachService {
         return dto;
     }
 
-    /** UPLOAD profile attach */
+    /**
+     * UPLOAD profile attach
+     */
 
     public AttachEntity uploadGeneric(MultipartFile file) {
         String pathFolder = getYmDString(); // 2022/04/23
@@ -72,7 +76,7 @@ public class AttachService {
         }
 
         String key = UUID.randomUUID().toString(); // dasdasd-dasdasda-asdasda-asdasd
-        String extension = getExtension(file.getOriginalFilename()); // dasda.asdas.dasd.jpg
+        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename()); // dasda.asdas.dasd.jpg
 
         AttachEntity entity = saveAttach(key, pathFolder, extension, file);
 
@@ -86,7 +90,9 @@ public class AttachService {
         return entity;
     }
 
-    /** OPEN by id */
+    /**
+     * OPEN by id
+     */
     public byte[] open_general(String key) {
         byte[] data;
         try {
@@ -101,7 +107,9 @@ public class AttachService {
         return new byte[0];
     }
 
-    /** DOWNLOAD attach */
+    /**
+     * DOWNLOAD attach
+     */
     public ResponseEntity<Resource> download(String key) { // images.png
         try {
             AttachEntity entity = get(key);
@@ -111,11 +119,11 @@ public class AttachService {
 
             if (resource.exists() || resource.isReadable()) {
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + entity.getOrigenName() + "\"")
+                                "attachment; filename=\"" + entity.getOrigenName() + "\"")
                         .body(resource);
 
             } else {
-                log.warn("cloud not read the file : {}", key );
+                log.warn("cloud not read the file : {}", key);
                 throw new RuntimeException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
@@ -123,21 +131,27 @@ public class AttachService {
         }
     }
 
-    /** UPDATE attch */
-    public AttachDTO update(MultipartFile fileDto, String key ){
+    /**
+     * UPDATE attach
+     */
+    public AttachDTO update(MultipartFile fileDto, String key) {
         if (delete(key)) {
             return upload(fileDto);
         } else throw new AppBadRequestException("Could not read the file!");
     }
 
-    /**UPDATE profile attach*/
-    public AttachEntity updateGeneric(MultipartFile fileDto, String key ){
+    /**
+     * UPDATE profile attach
+     */
+    public AttachEntity updateGeneric(MultipartFile fileDto, String key) {
         if (delete(key)) {
             return uploadGeneric(fileDto);
         } else throw new AppBadRequestException("Could not read the file!");
     }
 
-    /** DELETE */
+    /**
+     * DELETE
+     */
     public Boolean delete(String key) {
         AttachEntity entity = get(key);
 
@@ -153,7 +167,7 @@ public class AttachService {
 
 
     /**
-     *    ASSISTANT METHODS
+     * ASSISTANT METHODS
      */
 
     public String getYmDString() {
@@ -162,11 +176,6 @@ public class AttachService {
         int day = Calendar.getInstance().get(Calendar.DATE);
 
         return year + "/" + month + "/" + day; // 2022/04/23
-    }
-
-    public String getExtension(String fileName) { // mp3/jpg/npg/mp4.....
-        int lastIndex = fileName.lastIndexOf(".");
-        return fileName.substring(lastIndex + 1);
     }
 
     public AttachEntity saveAttach(String key, String pathFolder, String extension, MultipartFile file) {
@@ -197,18 +206,15 @@ public class AttachService {
 
     public String getPhotoURL(AttachEntity entity) {
 
-        return attachFolder+entity.getPath() + "/" + entity.getId() + "." + entity.getExtension();
+        return attachFolder + entity.getPath() + "/" + entity.getId() + "." + entity.getExtension();
     }
-
 
 
     public List<AttachDTO> paginationList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
 
         List<AttachDTO> dtoList = new ArrayList<>();
-        attachRepository.findAll(pageable).stream().forEach(entity -> {
-            dtoList.add(toDTO(entity));
-        });
+        attachRepository.findAll(pageable).stream().forEach(entity -> dtoList.add(toDTO(entity)));
 
         return dtoList;
     }

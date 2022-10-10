@@ -1,13 +1,10 @@
 package com.company.controller;
 
-import com.company.dto.TagDTO;
 import com.company.dto.VideoLikeDto;
-import com.company.repository.VideoLIkeService;
-import com.company.service.TagService;
+import com.company.service.VideoLIkeService;
 import com.company.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,35 +13,36 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/videolike")
+@RequestMapping("/videoLike")
+@RequiredArgsConstructor
 public class VideoLikeController {
-    @Autowired
-    private VideoLIkeService videoLIkeService;
+
+    private final VideoLIkeService videoLIkeService;
 
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody @Valid VideoLikeDto dto,
                                     HttpServletRequest request) {
-        log.info("create: {}", dto );
-        Integer pId= JwtUtil.getIdFromHeader(request);
+        log.info("create: {}", dto);
+        Integer pId = JwtUtil.getIdFromHeader(request);
 
-        return ResponseEntity.ok(videoLIkeService.create(pId,dto));
+        return ResponseEntity.ok(videoLIkeService.create(pId, dto));
     }
 
     @GetMapping("/{key}")
-    public ResponseEntity<?> get(@PathVariable("key")String key,
-                                    HttpServletRequest request) {
-        log.info("create: {}", key );
-        Integer pId= JwtUtil.getIdFromHeader(request);
+    public ResponseEntity<?> get(@PathVariable("key") String key,
+                                 HttpServletRequest request) {
+        log.info("create: {}", key);
+        Integer pId = JwtUtil.getIdFromHeader(request);
 
-        return ResponseEntity.ok(videoLIkeService.read(pId,key));
+        return ResponseEntity.ok(videoLIkeService.read(pId, key));
     }
 
     @PutMapping("/")
     public ResponseEntity<?> update(@RequestBody @Valid VideoLikeDto dto,
                                     HttpServletRequest request) {
-        log.info("create: {}", dto );
-        Integer pId= JwtUtil.getIdFromHeader(request);
+        log.info("create: {}", dto);
+        Integer pId = JwtUtil.getIdFromHeader(request);
 
-        return ResponseEntity.ok(videoLIkeService.update(pId,dto));
+        return ResponseEntity.ok(videoLIkeService.update(pId, dto));
     }
 }

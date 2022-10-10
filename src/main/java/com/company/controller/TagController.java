@@ -1,12 +1,11 @@
 package com.company.controller;
 
 import com.company.dto.TagDTO;
-import com.company.enums.LangEnum;
 import com.company.enums.ProfileRole;
 import com.company.service.TagService;
 import com.company.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +16,16 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/tag")
+@RequiredArgsConstructor
 public class TagController {
-    @Autowired
-    private TagService tagService;
+
+    private final TagService tagService;
 
 
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody @Valid TagDTO dto) {
 
-        log.info("create: {}", dto );
+        log.info("create: {}", dto);
 
         try {
 
@@ -45,7 +45,7 @@ public class TagController {
 
         JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
 
-        log.info("find all : {}", "page: "+page+" size: "+size );
+        log.info("find all : {}", "page: " + page + " size: " + size);
 
         return ResponseEntity.ok(tagService.getList(page, size));
     }
@@ -55,9 +55,9 @@ public class TagController {
                                     @RequestBody @Valid TagDTO dto,
                                     HttpServletRequest request) {
 
-        JwtUtil.getIdFromHeader(request,ProfileRole.ADMIN);
+        JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
 
-        log.info("update: {}", "id: "+id+"  "+dto );
+        log.info("update: {}", "id: " + id + "  " + dto);
 
 
         return ResponseEntity.ok(tagService.update(id, dto));
@@ -67,9 +67,9 @@ public class TagController {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
                                     HttpServletRequest request) {
 
-        JwtUtil.getIdFromHeader(request,ProfileRole.ADMIN);
+        JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
 
-        log.info("dlete: {}", id);
+        log.info("delete: {}", id);
 
         return ResponseEntity.ok(tagService.delete(id));
     }

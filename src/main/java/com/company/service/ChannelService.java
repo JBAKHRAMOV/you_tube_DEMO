@@ -1,43 +1,43 @@
 package com.company.service;
 
+import com.company.changeDto.ChannelStatusDTO;
 import com.company.dto.ChannelDto;
 import com.company.entity.ChannelEntity;
 import com.company.enums.GeneralStatus;
-import com.company.exception.ChannelAlredyExistsException;
-import com.company.repository.ChannelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.company.changeDto.ChannelStatusDTO;
 import com.company.enums.ProfileRole;
+import com.company.exception.ChannelAlreadyExistsException;
 import com.company.exception.ItemNotFoundException;
+import com.company.repository.ChannelRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 @Service
+@AllArgsConstructor
 public class ChannelService {
-    @Autowired
-    private ChannelRepository channelRepository;
-    @Autowired
-    private AttachService attachService;
+
+    private final ChannelRepository channelRepository;
+    private final AttachService attachService;
 
 
     public ChannelDto create(Integer pId, ChannelDto dto){
-        ChannelEntity entity = channelRepository.findByName(dto.getName()).get();
-        if (entity != null){
-            throw  new ChannelAlredyExistsException("Channel alredy exists");
+        var optional = channelRepository.findByName(dto.getName());
+        if (optional.isPresent()){
+            throw  new ChannelAlreadyExistsException("Channel already exists");
         }
 
-
+        ChannelEntity entity= new ChannelEntity();
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setKey(UUID.randomUUID().toString());
         entity.setStatus(GeneralStatus.ACTIVE);
 
         channelRepository.save(entity);
+
         dto.setCreateDate(entity.getCreateDate());
         dto.setKey(entity.getKey());
         dto.setId(entity.getId());
@@ -107,19 +107,19 @@ public class ChannelService {
 
         List<ChannelDto> dtoList = entityList.stream().map(this::toDTO).toList();
 
-        return new PageImpl<ChannelDto>(dtoList, pageable, totalElement);
+        return new PageImpl<>(dtoList, pageable, totalElement);
     }
 
     public GeneralStatus changeStatus(Integer pId, ProfileRole role, ChannelStatusDTO dto){
         if (role.equals(ProfileRole.ADMIN)){
             ChannelEntity entity=channelRepository.findByKey(dto.getKey())
-                    .orElseThrow(()-> {throw  new ItemNotFoundException("Item not foud");});
+                    .orElseThrow(()-> {throw  new ItemNotFoundException("Item not found");});
             entity.setStatus(dto.getStatus());
             channelRepository.save(entity);
             return entity.getStatus();
         }
         ChannelEntity entity=channelRepository.findByProfileIdAndKey(pId,dto.getKey())
-                    .orElseThrow(()-> {throw  new ItemNotFoundException("Item not foud");});
+                    .orElseThrow(()-> {throw  new ItemNotFoundException("Item not found");});
         entity.setStatus(dto.getStatus());
         channelRepository.save(entity);
         return entity.getStatus();
@@ -139,7 +139,7 @@ public class ChannelService {
 
         List<ChannelDto> dtoList = entityList.stream().map(this::toDTO).toList();
 
-        return new PageImpl<ChannelDto>(dtoList, pageable, totalElement);
+        return new PageImpl<>(dtoList, pageable, totalElement);
     }
 
 

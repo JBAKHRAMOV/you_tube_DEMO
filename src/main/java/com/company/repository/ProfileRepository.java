@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface ProfileRepository extends JpaRepository<ProfileEntity, Integer> {
     Optional<ProfileEntity> findByEmail(String email);
 
-    Page<ProfileEntity> findByStatus(String status, Pageable pageable);
+    Page<ProfileEntity> findByStatus(ProfileStatus status, Pageable pageable);
 
     Optional<ProfileEntity> findByEmailAndPassword(String email, String password);
 

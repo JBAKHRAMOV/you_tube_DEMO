@@ -1,35 +1,37 @@
 package com.company.entity;
 
 import com.company.enums.GeneralStatus;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Table
 @Entity
-@Data
-public class ChannelEntity extends BaseEntity{
-//id,name,photo,description,status (ACTIVE, BLOCK),banner,profile_id,key
+@Setter
+@Getter
+public class ChannelEntity extends BaseEntity {
     @Column(unique = true)
     private String name;
     @Column
     private GeneralStatus status;
     @Column
     private String description;
-    @Column String key;
+    @Column
+    String key;
 
-    @Column(name = "profile_id", nullable = false)
+    @Column(nullable = false)
     private Integer profileId;
     @ManyToOne()
-    @JoinColumn(name = "profile_id",insertable = false, updatable = false)
+    @JoinColumn(insertable = false, updatable = false)
     private ProfileEntity profile;
 
 
     @OneToOne()
-    @JoinColumn(name = "banner_id")
+    @JoinColumn()
     private AttachEntity banner;
 
     @OneToOne()
-    @JoinColumn(name = "photo_id")
+    @JoinColumn()
     private AttachEntity photo;
 }

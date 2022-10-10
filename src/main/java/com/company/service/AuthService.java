@@ -15,20 +15,19 @@ import com.company.exception.PasswordOrEmailWrongException;
 import com.company.repository.ProfileRepository;
 import com.company.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
+import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AuthService {
-    @Autowired
-    ProfileRepository profileRepository;
-    @Autowired
-    EmailService emailService;
-    @Autowired
-    AttachService attachService;
+
+    private final ProfileRepository profileRepository;
+    private final EmailService emailService;
+    private final AttachService attachService;
 
     public ProfileDTO login(AuthDTO dto) {
         String password = DigestUtils.md5Hex(dto.getPassword());

@@ -5,8 +5,8 @@ import com.company.entity.EmailEntity;
 import com.company.enums.EmailType;
 import com.company.exception.ItemNotFoundException;
 import com.company.repository.EmailRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,15 +19,14 @@ import java.util.List;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class EmailService {
-    @Autowired
-    private JavaMailSender javaMailSender;
-    @Autowired
-    private EmailRepository emailRepository;
+
+    private final JavaMailSender javaMailSender;
+    private final EmailRepository emailRepository;
 
     public void send(String toEmail, String title, String content) {
         SimpleMailMessage simple = new SimpleMailMessage();
-//        MimeMailMessage message = new MimeMailMessage();
         simple.setTo(toEmail);
         simple.setSubject(title);
         simple.setText(content);
@@ -43,9 +42,7 @@ public class EmailService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "sendDate"));
 
         List<EmailDTO> dtoList = new ArrayList<>();
-        emailRepository.findAll(pageable).stream().forEach(entity -> {
-            dtoList.add(toDTO(entity));
-        });
+        emailRepository.findAll(pageable).stream().forEach(entity -> dtoList.add(toDTO(entity)));
 
         return dtoList;
     }
